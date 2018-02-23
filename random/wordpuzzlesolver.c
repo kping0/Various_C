@@ -28,21 +28,26 @@ int printarr(char arr[2048],int newlinesz,int printmax){ //print array with newl
 	return 0;
 }
 
-int solve(char puzzle[2000],char word[40],int pzret){ //main function to solve wordpuzzle
+int solve(char puzzle[2000],char word[40],int pzret){ //solve
 	char solved[2000] = ""; //buffer for solution
 	int fail = -1;
 	int i = 0; //counter for puzzle
 	int x = 0; //counter for word
-	//char lf = word[0]; //compared to different chars of the puzzle (SET +1 every time sucess)
 	printf("length of puzzle is : %i *&& word is %s\n",strlen(puzzle),word);
-	while(strlen(word) != x){ //LOOP FOR CHECKING IF WORD EXISTS GOING FORWARDS.
-		if(i-1 == strlen(puzzle)){
+	while(1){ //LOOP FOR CHECKING IF WORD EXISTS GOING FORWARDS.
+		if(strlen(word) == x){
+//		puts("word found");
+		fail = 0;
+		printarr(solved,pzret,strlen(puzzle));
+		break;
+		}
+		else if(i-1 == strlen(puzzle)){
 			x = 0;
 			i = 0;
 			break;
 		}		
 		else if(word[x] == puzzle[i]){
-			printf("reached(forwards) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
+//			printf("reached(forwards) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
 			solved[i] = puzzle[i];
 			while(1){ // check if word exists going forwards (puzzle char +1 ...)
 				if(i == strlen(puzzle) && x == strlen(word)){ //to make sure that i dosent climb uncontrolled
@@ -52,12 +57,12 @@ int solve(char puzzle[2000],char word[40],int pzret){ //main function to solve w
 				x++;
 				i++;
 				if(word[x] == puzzle[i]){
-				printf("reached(forwards) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
+//				printf("reached(forwards) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
 				solved[i] = puzzle[i];
 				}
 				else if(strlen(word) == x){ // check if we found the word
 					fail = 0;
-					puts("Word Found!");
+//					puts("Word Found!");
 					printarr(solved,pzret,strlen(puzzle));
 					return 0;
 					break;
@@ -71,7 +76,7 @@ int solve(char puzzle[2000],char word[40],int pzret){ //main function to solve w
 				}
 			}
 			if(fail == 0){
-				puts("fail = 0, exiting");
+//				puts("fail = 0, exiting");
 				break;
 			}
 			if(i == strlen(puzzle)-1){
@@ -84,15 +89,13 @@ int solve(char puzzle[2000],char word[40],int pzret){ //main function to solve w
 		else{
 			i++;
 			if(i == strlen(puzzle)){
-				puts("word not found");
+//				puts("word not found");
 				fail = 1;
 				break;
 			}
 		}
 	}
-printarr(solved,pzret,strlen(puzzle));
-if(fail == 1){ //backwards test if word was not found
-	//reset variables for #2 backwards check
+if(fail != 0){ //backwards test if word was not found
 		x = 0;
 		i = strlen(word);
 		int i2 = 0;
@@ -101,13 +104,13 @@ if(fail == 1){ //backwards test if word was not found
 		while(1){
 			if(word[x] == puzzle[i]){
 			i2 = i + 1;
-			printf("reached(backmode) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
+//			printf("reached(backmode) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
 			solved[i] = puzzle[i];
 			while(1){
 				x++;
 				if(i > 0){ //subtract 1 from puzzle and add one to x 
 					if(i == strlen(puzzle)){ //to make sure that i dosent climb uncontrolled
-					puts("error i == strlen puzzle");
+//					puts("error i == strlen puzzle");
 					fail = 1;
 					break;
 					}
@@ -118,11 +121,11 @@ if(fail == 1){ //backwards test if word was not found
 					break;
 				}
 				if(strlen(puzzle) <= i){
-					puts("err");
+//					puts("err");
 					return -1;				
 				}
 				else if(word[x] == puzzle[i]){
-					printf("reached(backmode) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
+//					printf("reached(backmode) sm. value: %i(wc: %c -- pz: %c)\n",i,word[x],puzzle[i]);
 					solved[i] = puzzle[i];
 				}
 				else if(strlen(word) == x){
@@ -132,7 +135,7 @@ if(fail == 1){ //backwards test if word was not found
 					break;
 				}
 				else{
-					puts("error,resetting(in backwards mode) x ");
+//					puts("error,resetting(in backwards mode) x ");
                                         fail = 1;
                                         break;
 				}
@@ -147,47 +150,47 @@ if(fail == 1){ //backwards test if word was not found
 		else{
 			i++;
 			if(i == strlen(puzzle)){
-				puts("Word n/a");
+//				puts("Word n/a");
 				fail = 1;
 				break;
 			}
 		}
 	}
 }
-if(fail == 1){
+if(fail != 0){
 	x = 0;
 	i = 0;
 	fail = -1;
 	int i2  = 0;
 	memset(solved,0,sizeof(solved));
 	while(i != strlen(puzzle)){
-			printf("i=%i & x=%i // puzzle[i](%c), i+pzret(%c)\n",i,x,puzzle[i],puzzle[i+pzret]);
+//			printf("i=%i & x=%i // puzzle[i](%c), i+pzret(%c)\n",i,x,puzzle[i],puzzle[i+pzret]);
 		if(puzzle[i] == word[x]){
-			printf("match at %i,word %c,& puzzle %c\n",i,word[x],puzzle[i]);
+//			printf("match at %i,word %c,& puzzle %c\n",i,word[x],puzzle[i]);
 			solved[i] = puzzle[i];
 			x++;
 			i2 = i + pzret;
 			while(1){
 				if(strlen(puzzle) <= i2 || strlen(puzzle) <= i){
-				puts("length reached");
+//				puts("length reached");
 				fail = 2;
 				break;
 				}
 				else if(strlen(word) == x){
-					puts("Word found!");
+//					puts("Word found!");
 					fail = 0;
 					printarr(solved,pzret,strlen(puzzle));
 					return 0;
 					break;
 				}
 				else if(word[x] == puzzle[i2]){
-					printf("match at %i,wrd(%c) & pzl(%c)\n",i,word[x],puzzle[i2]);
+//					printf("match at %i,wrd(%c) & pzl(%c)\n",i,word[x],puzzle[i2]);
 					solved[i2] = puzzle[i2];
 					i2 = i2 + pzret;
 					x++;
 				}
 				else{
-					printf("failed match wrd(%c) & pzl(%c)\n", word[x],puzzle[i2]);
+//					printf("failed match wrd(%c) & pzl(%c)\n", word[x],puzzle[i2]);
 					x = 0;
 					i2 = 0;
 					memset(solved,0,sizeof(solved));
@@ -197,11 +200,11 @@ if(fail == 1){
 				}
 			}
 			if(fail == 0){
-				puts("read success");
+//				puts("read success");
 				break;
 			}
 			else if(fail == 2){
-				puts("read fail");
+//				puts("read fail");
 				printarr(solved,pzret,strlen(puzzle));
 				memset(solved,0,sizeof(solved));
 				break;
@@ -212,65 +215,61 @@ if(fail == 1){
 	}
 }
 }
-if(fail == 1){
+if(fail != 0){
 	x = 0;
 	i = 0;
 	fail = -1;
 	int i2 = 0;
 	memset(solved,0,sizeof(solved));
 	while(1){
-		if(strlen(puzzle) == i){
-			puts("max length exx.");
+		if(strlen(puzzle) <= i){
+//			puts("max length exx.");
 			printarr(solved,pzret,strlen(puzzle));
 			break;
 		}
 		else if(puzzle[i] == word[x]){
 			solved[i] = puzzle[i];
-			printf("mch fnd puzzle[%i] = %c // solved[%i] = %c\n",i,puzzle[i],x,solved[x]);
+//			printf("mch fnd puzzle[%i] = %c // solved[%i] = %c\n",i,puzzle[i],x,solved[x]);
 			x++;
 			i2 = i - pzret;
-			while(strlen(puzzle) > i && strlen(puzzle) > i2 && i - pzret >= 0 && i2 - pzret >= 0){
-				sleep(1);
+			if(i - pzret <= 0 || i - pzret <= 0){
+//				puts("error 21");
+				memset(solved,0,sizeof(solved));
+				fail = 1;
+				x = 0;
+				i2 = 0;
+			}
+			else{
+			while(strlen(puzzle) > i-1 && strlen(puzzle) > i2-1 && i - pzret >= 0 && i2 - pzret >= -1){
+//				sleep(1);
 				if(strlen(word) <= x){
-				fail = 0;
-				puts("w found");
-				break;
+					fail = 0;
+					puts("w found");
+					break;
 				}
 				else if(puzzle[i2] == word[x]){
 					solved[i2] = puzzle[i2];
-					printf("mch fnd puzzle[%i] = %c // solved[%i] = %c\n",i2,puzzle[i2],x,solved[x]);
+//					printf("mch fnd puzzle[%i] = %c // solved[%i] = %c\n",i2,puzzle[i2],x,solved[x]);
 					i2 = i2 - pzret;
 					x++;
-				}
-				else if(strlen(puzzle) == i2){
-				fail = 2;
-				puts("did not find the word going upwards");
-				memset(solved,0,sizeof(solved));
-				x = 0;
-				i2 = 0;
-				i = 0;
-				break;
-				}
-				else if(strlen(word) == x){
-				fail = 0;
-				puts("word found");
-				printarr(solved,pzret,strlen(puzzle));
-				break;
 				}
 				else{
 					fail = 1;
 					x = 0;
-					puts("failed comp, resetting x");
+//					puts("failed comp, resetting x");
 					memset(solved,0,sizeof(solved));
 					i2 = 0;
 					break;
 				}
+			} //end of while
 			}
+
 		}
+
 		i++;
 		if(fail == 0 || fail == 2){
 		printarr(solved,pzret,strlen(puzzle));
-		puts("caught fail == 0/2, exiting");
+//		puts("caught interrupt, exiting");
 		break;
 		}
 	}
@@ -294,6 +293,7 @@ int main(int argc,char** argv[]){
 			break;		
 		}
 	}
+	
 		while(1){
 			printarr(puzzle,pzret,strlen(puzzle));		
 			printf("Please enter a word to query:\n---> ");
