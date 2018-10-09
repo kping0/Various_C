@@ -4,9 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <windows.h>
+#include <string.h>
+//#include <windows.h>
 #include <dirent.h> /* posix folder standard */
-#include <direct.h>
+//#include <direct.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
